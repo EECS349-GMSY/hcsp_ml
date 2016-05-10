@@ -2,19 +2,19 @@
 import math, time
 from datetime import datetime, date
 import csv
+import os
+import glob
+
 # parse a single file of spac times
-def parse_spac(filename, lines):
+def parse_spac(filename, date_times):
     start = time.clock()
 
     f = open(filename, 'r')
-    date_times = []
+    #date_times = []
     spac_data = csv.reader(f)
     #first_line = spac_data.readline()
     i = 0
     for row in spac_data:
-    #with open(filename) as spac_data:
-        #print row
-        #print str(i)
         if i > 0:
             [location, date_t, qty] = row
             [month_day, year_time] = date_t.split(",")
@@ -72,10 +72,19 @@ def parse_spac(filename, lines):
 
 # returns a list of filenames to be parsed
 def get_filenames():
-    return []
+    curr_dir = os.getcwd()
+    #print curr_dir
+    spac_dir = str(curr_dir) + '/spac_rev/*.csv'
+    spac_files = glob.glob(spac_dir)
+    #print spac_dir
+    spac_date_times = []
+    for f_name in spac_files:
+        spac_date_times = parse_spac(f_name, spac_date_times)
+
+    return spac_date_times
+
 
 if __name__ == '__main__':
-    f_s0 = 'spac_rev/Sep01_13.csv'
-    l_s0 = 1000
-    dt = parse_spac(f_s0, l_s0)
-    print str(dt)
+    s_data = get_filenames()
+    print str(s_data[0])
+    print "SIZE OF DATASET" + str(len(s_data))
