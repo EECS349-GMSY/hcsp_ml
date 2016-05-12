@@ -1,6 +1,6 @@
 
 import math, time
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import csv
 import os
 import glob
@@ -83,8 +83,40 @@ def get_filenames():
 
     return spac_date_times
 
+def round_time(date_time):
+	if date_time.minute == 0 or date_time.minute == 30:
+		return (date_time, None)
+	elif date_time.minute < 30:
+		new1 = date_time.replace(minute = 0)
+		new2 = date_time.replace(minute = 30)
+		return (new1, new2)
+	else:
+		new1 = date_time.replace(minute = 30)
+		new2 = date_time.replace(minute = 0)
+		new2 = new2 + timedelta(hours = 1)
+		return (new1, new2)
 
-if __name__ == '__main__':
-    s_data = get_filenames()
-    print str(s_data[0])
-    print "SIZE OF DATASET" + str(len(s_data))
+def get_gym_numbers(date_times):
+	td = timedelta(minutes = 30)
+	start = datetime(2015, 1, 1)
+	end = datetime(2016, 1, 1)
+	curr = start
+	gym_times = {}
+	while (curr != end):
+		gym_times[curr] = [0]
+		curr = curr + td
+	for i in range(0, len(date_times)):
+		(date_time1, date_time2) = round_time(date_times[i])
+		gym_times[date_time1][0] = gym_times[date_time1][0] +1
+		if date_time2:
+			gym_times[date_time2][0] = gym_times[date_time2][0] + 1
+	return gym_times
+
+def print_gym_times(gym_times):
+	for key in gym_times.keys():
+		print 'Date/Time: ' + str(key) + ', Number: ' + str(gym_times[key])
+
+#if __name__ == '__main__':
+    #s_data = get_filenames()
+    #print str(s_data[0])
+    #print "SIZE OF DATASET" + str(len(s_data))
