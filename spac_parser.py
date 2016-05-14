@@ -10,22 +10,18 @@ def parse_spac(filename, date_times):
     start = time.clock()
 
     f = open(filename, 'r')
-    #date_times = []
     spac_data = csv.reader(f)
-    #first_line = spac_data.readline()
     i = 0
     for row in spac_data:
         if i > 0:
             [location, date_t, qty] = row
             [month_day, year_time] = date_t.split(",")
-            # month_day = month_day[1:]
             [month_word, day] = month_day.split(" ")
             day = int(day)
             year_time = year_time[1:]
             [year, time_hm, ampm]  = year_time.split(" ")
             year = int(year)
             month = 0
-            #print month_word
 
             if month_word == 'Jan':
                 month = 1
@@ -62,7 +58,10 @@ def parse_spac(filename, date_times):
             t_hour = int(t_hour)
             t_min = int(t_min)
             curr_dt = datetime(year, month, day, t_hour, t_min)
-            date_times.append(curr_dt)
+
+            #cut times out of usual business hours
+            if curr_dt.hour >= 6 and curr_dt.hour < 23:
+                date_times.append(curr_dt)
         i = i + 1
 
     end = time.clock()

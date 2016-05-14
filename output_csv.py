@@ -37,7 +37,7 @@ def compile_data():
     #print(gym_nums)
     gym_quart = quarter_filler_func(gym_nums)
     print 'LEN' + str(len(gym_quart.keys()))
-    w_file = 'data/weather_sep-may2016.csv'
+    w_file = 'data/weather_jan2015_may2016.csv'
     w_list = weather_parser(w_file)
     w_dict = weather_to_dict(w_list)
     s_w_q_data = add_weather_to_gym(gym_quart, w_dict)
