@@ -20,13 +20,17 @@ def weather_to_dict(weather_list):
 def add_weather_to_gym(gq_data, weath):
     for key in gq_data.keys():
         if key in weath.keys():
-            curr_gq = gq_data[key][0]
-            if(curr_gq == None):
-                print "GQGQGQGQGQGQGQGQGQ"
+            curr_gq_0 = gq_data[key][0]
+            curr_gq_1 = gq_data[key][1]
+            curr_gq_2 = gq_data[key][2]
+            # if(curr_gq == None):
+            #     print "GQGQGQGQGQGQGQGQGQ"
             curr_w = weath[key]
-            curr_w.insert(0, curr_gq)
-            if(curr_w == None):
-                print "NOTTTTTTT GOOOODDDDD"
+            curr_w.insert(0, curr_gq_2)
+            curr_w.insert(0, curr_gq_1)
+            curr_w.insert(0, curr_gq_0)
+            # if(curr_w == None):
+            #     print "NOTTTTTTT GOOOODDDDD"
             gq_data[key] = curr_w
     return gq_data
 
@@ -36,7 +40,8 @@ def compile_data():
     gym_nums = get_gym_numbers(raw_spac_data)
     #print(gym_nums)
     gym_quart = quarter_filler_func(gym_nums)
-    print 'LEN' + str(len(gym_quart.keys()))
+    print 'LEN ' + str(len(gym_quart.keys()))
+    #print str(gym_quart)
     w_file = 'data/weather_jan2015_may2016.csv'
     w_list = weather_parser(w_file)
     w_dict = weather_to_dict(w_list)
@@ -48,6 +53,10 @@ def check_data(swq):
         if swq[key] == None:
             print 'BREAKKKKDJDJDJD'
     return 0
+
+# def print_dict(dict):
+#     for key in dict.keys():
+
 def output_to_csv(filename = 'hcsp.csv'):
     swq_data = compile_data()
     print "DATA COMPILED "
@@ -64,3 +73,7 @@ def output_to_csv(filename = 'hcsp.csv'):
     end = time.clock()
     print "COMPLETED OUTPUT TO CSV in " + str(end - start) + " seconds "
     return 0
+
+
+if __name__ == '__main__':
+    output_to_csv()
