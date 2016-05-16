@@ -57,7 +57,7 @@ def check_data(swq):
 # def print_dict(dict):
 #     for key in dict.keys():
 
-def output_to_csv(filename = 'hcsp.csv'):
+def output_to_csv(filename = 'hcsp_new.csv'):
     swq_data = compile_data()
     print "DATA COMPILED "
     f = open(filename, 'wb')

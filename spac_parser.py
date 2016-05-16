@@ -60,7 +60,7 @@ def parse_spac(filename, date_times):
             curr_dt = datetime(year, month, day, t_hour, t_min)
 
             #cut times out of usual business hours
-            if curr_dt.hour >= 6 and curr_dt.hour < 23:
+            if t_hour >= 6 and t_hour < 23:
                 date_times.append(curr_dt)
         i = i + 1
 
@@ -102,8 +102,9 @@ def get_gym_numbers(date_times):
 	curr = start
 	gym_times = {}
 	while (curr != end):
-		gym_times[curr] = [0]
-		curr = curr + td
+		if (curr.hour >= 6):
+            gym_times[curr] = [0]
+        curr = curr + td
 	for i in range(0, len(date_times)):
 		(date_time1, date_time2) = round_time(date_times[i])
 		gym_times[date_time1][0] = gym_times[date_time1][0] +1
