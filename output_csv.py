@@ -19,24 +19,23 @@ def weather_to_dict(weather_list):
 
 def add_weather_to_gym(gq_data, weath):
     for key in gq_data.keys():
-        if key in weath.keys():
+        if key in weath:
             curr_gq_0 = gq_data[key][0]
             curr_gq_1 = gq_data[key][1]
             curr_gq_2 = gq_data[key][2]
-            # if(curr_gq == None):
-            #     print "GQGQGQGQGQGQGQGQGQ"
             curr_w = weath[key]
             curr_w.insert(0, curr_gq_2)
             curr_w.insert(0, curr_gq_1)
             curr_w.insert(0, curr_gq_0)
-            # if(curr_w == None):
-            #     print "NOTTTTTTT GOOOODDDDD"
             gq_data[key] = curr_w
     return gq_data
 
-def compile_data():
+def compile_data(output_nom = False):
     gym_nums = get_gym_numbers()
-    #print(gym_nums)
+    #convert attendence to nominal if output_nom == True
+    if output_nom:
+        gym_nums = gym_num_to_nom(gym_nums)
+
     gym_quart = quarter_filler_func(gym_nums)
     print 'LEN ' + str(len(gym_quart.keys()))
     #print str(gym_quart)
@@ -52,19 +51,20 @@ def check_data(swq):
             print 'BREAKKKKDJDJDJD'
     return 0
 
-# def print_dict(dict):
-#     for key in dict.keys():
-
-def output_to_csv(filename = 'hcsp_new.csv'):
+def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False):
     swq_data = {}
-    if os.path.isfile('pickled_data.dat'):
+
+    pickle_path = 'pickled_data.dat'
+    if output_nom:
+        pickle_path = 'pickled_data_nom.dat'
+    if os.path.isfile(pickle_path):
         print "Fetching dictionary from pickled_data.dat"
-        swq_data = load('pickled_data.dat')
+        swq_data = load(pickle_path)
 
     else:
         print "Parsing data to make dictionary"
-        swq_data = compile_data()
-        s = save(swq_data,'pickled_data.dat')
+        swq_data = compile_data(output_nom)
+        s = save(swq_data,pickle_path)
         print "DATA COMPILED "
     f = open(filename, 'wb')
     out_f = csv.writer(f)
@@ -98,4 +98,8 @@ def load(sFilename):
 ################################################################
 
 if __name__ == '__main__':
+    #this one will put the attendence into a 5 nominal values
+    #output_to_csv(filename = 'output/hcsp_big_nom.csv', output_nom = True)
+
+    #this one will run the standard output to csv
     output_to_csv()

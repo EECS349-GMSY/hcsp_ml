@@ -77,7 +77,7 @@ def parse_spac(filename, date_times):
 def get_filenames():
 	curr_dir = os.getcwd()
 	# spac_dir = str(curr_dir) + '/spac_rev/*.csv'  #small dataset
-	spac_dir = str(curr_dir) + '/spac_year/*.csv'   #full year dataset
+	spac_dir = str(curr_dir) + '/data/spac_year/*.csv'   #full year dataset
 	spac_files = glob.glob(spac_dir)
 	#print spac_dir
 	spac_date_times = []
@@ -126,24 +126,23 @@ def print_gym_times(gym_times):
 	for key in gym_times.keys():
 		print 'Date/Time: ' + str(key) + ', Number: ' + str(gym_times[key])
 
+def gym_num_to_nom(gym_data):
+	g_keys = gym_data.keys()
+	#VALUES ARE CURRENTLY ARBITRARY AND WILL PROBABLY CHANGE
+	for key in g_keys:
+		if gym_data[key][0] < 15:
+			gym_data[key][0] = 'Nearly Empty'
+		elif gym_data[key][0] < 30:
+			gym_data[key][0] = 'Not Crowded'
+		elif gym_data[key][0] < 45:
+			gym_data[key][0] = 'Moderately Crowded'
+		elif gym_data[key][0] < 60:
+			gym_data[key][0] = 'Pretty Crowded'
+		else:
+			gym_data[key][0] = 'Jam Packed Very Crowded'
 
-#############################################################
-#### -- The following 2 functions were brought from EECS 348 Assignment 3
-#### -- Credit to Prof. Sara Sood, EECS 348 TAs for the writing the following functions
-def save(dObj, sFilename):
-	f = open(sFilename, "w")
-	p = pickle.Pickler(f)
-	p.dump(dObj)
-	f.close()
-
-def load(sFilename):
-	f = open(sFilename, "r")
-	u = pickle.Unpickler(f)
-	dObj = u.load()
-	f.close()
-	return dObj
-################################################################
-if __name__ == '__main__':
-	s_data = get_filenames()
-	print str(s_data[0])
-	print "SIZE OF DATASET " + str(len(s_data))
+	return gym_data
+# if __name__ == '__main__':
+# 	s_data = get_filenames()
+# 	print str(s_data[0])
+# 	print "SIZE OF DATASET " + str(len(s_data))
