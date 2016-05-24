@@ -70,11 +70,15 @@ def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False):
     out_f = csv.writer(f)
 
     start = time.clock()
+    header_row = ['Datetime', 'Attendence', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7', 'W8']
+    out_f.writerow(header_row)
     for key in swq_data.keys():
         curr_row = swq_data[key]
-        #print str(curr_row)
-        curr_row.insert(0, str(key))
-        out_f.writerow(curr_row)
+        #print "CURR ROW LENGTH: " + str(len(curr_row))
+        if len(curr_row) == 10:
+            #print str(curr_row)
+            curr_row.insert(0, str(key))
+            out_f.writerow(curr_row)
 
     end = time.clock()
     print "COMPLETED OUTPUT TO CSV in " + str(end - start) + " seconds "
@@ -99,7 +103,7 @@ def load(sFilename):
 
 if __name__ == '__main__':
     #this one will put the attendence into a 5 nominal values
-    #output_to_csv(filename = 'output/hcsp_big_nom.csv', output_nom = True)
+    output_to_csv(filename = 'output/hcsp_big_nom.csv', output_nom = True)
 
     #this one will run the standard output to csv
     output_to_csv()
