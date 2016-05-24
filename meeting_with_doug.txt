@@ -1,0 +1,10 @@
+linear mapping
+multi-layer perception
+regression trees
+linear regression models
+
+hold out groups and run the data then compare results
+which features are most impactful
+compare linear regression to tensor flow neural net + descretization scheme and comparing
+
+maybe throw out zeroes

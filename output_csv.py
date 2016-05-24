@@ -35,9 +35,7 @@ def add_weather_to_gym(gq_data, weath):
     return gq_data
 
 def compile_data():
-    raw_spac_data = get_filenames()
-    print "SPAC DATA PARSED"
-    gym_nums = get_gym_numbers(raw_spac_data)
+    gym_nums = get_gym_numbers()
     #print(gym_nums)
     gym_quart = quarter_filler_func(gym_nums)
     print 'LEN ' + str(len(gym_quart.keys()))
@@ -58,8 +56,16 @@ def check_data(swq):
 #     for key in dict.keys():
 
 def output_to_csv(filename = 'hcsp_new.csv'):
-    swq_data = compile_data()
-    print "DATA COMPILED "
+    swq_data = {}
+    if os.path.isfile('pickled_data.dat'):
+        print "Fetching dictionary from pickled_data.dat"
+        swq_data = load('pickled_data.dat')
+
+    else:
+        print "Parsing data to make dictionary"
+        swq_data = compile_data()
+        s = save(swq_data,'pickled_data.dat')
+        print "DATA COMPILED "
     f = open(filename, 'wb')
     out_f = csv.writer(f)
 
@@ -74,6 +80,22 @@ def output_to_csv(filename = 'hcsp_new.csv'):
     print "COMPLETED OUTPUT TO CSV in " + str(end - start) + " seconds "
     return 0
 
+#############################################################
+#### -- The following 2 functions were brought from EECS 348 Assignment 3
+#### -- Credit to Prof. Sara Sood, EECS 348 TAs for the writing the following functions
+def save(dObj, sFilename):
+	f = open(sFilename, "w")
+	p = pickle.Pickler(f)
+	p.dump(dObj)
+	f.close()
+
+def load(sFilename):
+	f = open(sFilename, "r")
+	u = pickle.Unpickler(f)
+	dObj = u.load()
+	f.close()
+	return dObj
+################################################################
 
 if __name__ == '__main__':
     output_to_csv()

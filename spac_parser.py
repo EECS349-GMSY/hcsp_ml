@@ -4,6 +4,7 @@ from datetime import datetime, date, timedelta
 import csv
 import os
 import glob
+import pickle
 
 # parse a single file of spac times
 def parse_spac(filename, date_times):
@@ -14,7 +15,10 @@ def parse_spac(filename, date_times):
 	i = 0
 	for row in spac_data:
 		if i > 0:
-			[location, date_t, qty] = row
+			#print str(row)
+			[date_t] = row
+			#print "DATE OBJECTTTTTT"
+			#print str(date_t)
 			[month_day, year_time] = date_t.split(",")
 			[month_word, day] = month_day.split(" ")
 			day = int(day)
@@ -65,19 +69,20 @@ def parse_spac(filename, date_times):
 		i = i + 1
 
 	end = time.clock()
-	print "PARSED IN " + str(end - start) + " SECONDS. "
+	print "PARSED " + filename + " IN " + str(end - start) + " SECONDS. "
 
 	return date_times
 
 # returns a list of filenames to be parsed
 def get_filenames():
 	curr_dir = os.getcwd()
-	#print curr_dir
-	spac_dir = str(curr_dir) + '/spac_rev/*.csv'
+	# spac_dir = str(curr_dir) + '/spac_rev/*.csv'  #small dataset
+	spac_dir = str(curr_dir) + '/spac_year/*.csv'   #full year dataset
 	spac_files = glob.glob(spac_dir)
 	#print spac_dir
 	spac_date_times = []
 	for f_name in spac_files:
+		#print "CURRENT FILE: " + f_name
 		spac_date_times = parse_spac(f_name, spac_date_times)
 
 	return spac_date_times
@@ -95,19 +100,24 @@ def round_time(date_time):
 		new2 = new2 + timedelta(hours = 1)
 		return (new1, new2)
 
-def get_gym_numbers(date_times):
-	td = timedelta(minutes = 30)
-	start = datetime(2015, 9, 1)
-	end = datetime(2016, 1, 1)
-	curr = start
+def get_gym_numbers():
 	gym_times = {}
+	date_times = get_filenames()
+	print "SPAC DATA PARSED"
+	td = timedelta(minutes = 30)
+	start = datetime(2015, 4, 1, 0, 0)
+	end = datetime(2016, 4, 30, 23, 30)
+	curr = start
+
 	while (curr != end):
 		if (curr.hour >= 6) and (curr.hour <= 23):
 			gym_times[curr] = [0]
 		curr = curr + td
 	for i in range(0, len(date_times)):
+		#print "IIIIIIIIII: " + str(i)
 		(date_time1, date_time2) = round_time(date_times[i])
-		gym_times[date_time1][0] = gym_times[date_time1][0] +1
+		#print str(date_times[i])
+		gym_times[date_time1][0] = gym_times[date_time1][0] + 1
 		if date_time2:
 			gym_times[date_time2][0] = gym_times[date_time2][0] + 1
 	return gym_times
@@ -116,7 +126,24 @@ def print_gym_times(gym_times):
 	for key in gym_times.keys():
 		print 'Date/Time: ' + str(key) + ', Number: ' + str(gym_times[key])
 
-#if __name__ == '__main__':
-	#s_data = get_filenames()
-	#print str(s_data[0])
-	#print "SIZE OF DATASET" + str(len(s_data))
+
+#############################################################
+#### -- The following 2 functions were brought from EECS 348 Assignment 3
+#### -- Credit to Prof. Sara Sood, EECS 348 TAs for the writing the following functions
+def save(dObj, sFilename):
+	f = open(sFilename, "w")
+	p = pickle.Pickler(f)
+	p.dump(dObj)
+	f.close()
+
+def load(sFilename):
+	f = open(sFilename, "r")
+	u = pickle.Unpickler(f)
+	dObj = u.load()
+	f.close()
+	return dObj
+################################################################
+if __name__ == '__main__':
+	s_data = get_filenames()
+	print str(s_data[0])
+	print "SIZE OF DATASET " + str(len(s_data))
