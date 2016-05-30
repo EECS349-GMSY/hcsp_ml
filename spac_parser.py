@@ -139,11 +139,11 @@ def gym_num_to_nom(gym_data):
 	for key in g_keys:
 		if gym_data[key][0] < 15:
 			gym_data[key][0] = 'Nearly Empty'
-		elif gym_data[key][0] < 30:
+		elif gym_data[key][0] < 50:
 			gym_data[key][0] = 'Not Crowded'
-		elif gym_data[key][0] < 45:
+		elif gym_data[key][0] < 100:
 			gym_data[key][0] = 'Moderately Crowded'
-		elif gym_data[key][0] < 60:
+		elif gym_data[key][0] < 150:
 			gym_data[key][0] = 'Pretty Crowded'
 		else:
 			gym_data[key][0] = 'Jam Packed Very Crowded'

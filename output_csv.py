@@ -33,11 +33,11 @@ def add_weather_to_gym(gq_data, weath):
 def compile_data(output_nom = False, rem_0 = False):
     gym_nums = get_gym_numbers()
     #convert attendence to nominal if output_nom == True
-    if output_nom:
-        gym_nums = gym_num_to_nom(gym_nums)
-
     if rem_0:
         gym_nums = remove_zeros(gym_nums)
+        
+    if output_nom:
+        gym_nums = gym_num_to_nom(gym_nums)
 
     gym_quart = quarter_filler_func(gym_nums)
     print 'LEN ' + str(len(gym_quart.keys()))
