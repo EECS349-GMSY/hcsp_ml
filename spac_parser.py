@@ -137,9 +137,7 @@ def gym_num_to_nom(gym_data):
 	g_keys = gym_data.keys()
 	#VALUES ARE CURRENTLY ARBITRARY AND WILL PROBABLY CHANGE
 	for key in g_keys:
-		if gym_data[key][0] < 15:
-			gym_data[key][0] = 'Nearly Empty'
-		elif gym_data[key][0] < 50:
+		if gym_data[key][0] < 50:
 			gym_data[key][0] = 'Not Crowded'
 		elif gym_data[key][0] < 100:
 			gym_data[key][0] = 'Moderately Crowded'
