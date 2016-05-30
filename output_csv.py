@@ -30,11 +30,14 @@ def add_weather_to_gym(gq_data, weath):
             gq_data[key] = curr_w
     return gq_data
 
-def compile_data(output_nom = False):
+def compile_data(output_nom = False, rem_0 = False):
     gym_nums = get_gym_numbers()
     #convert attendence to nominal if output_nom == True
     if output_nom:
         gym_nums = gym_num_to_nom(gym_nums)
+
+    if rem_0:
+        gym_nums = remove_zeros(gym_nums)
 
     gym_quart = quarter_filler_func(gym_nums)
     print 'LEN ' + str(len(gym_quart.keys()))
@@ -51,19 +54,25 @@ def check_data(swq):
             print 'BREAKKKKDJDJDJD'
     return 0
 
-def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False):
+def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False, rem_0 = False):
     swq_data = {}
-
+    #GET THE DATA IF PICKLED
     pickle_path = 'pickled_data.dat'
     if output_nom:
-        pickle_path = 'pickled_data_nom.dat'
+        if rem_0:
+            pickle_path = 'pickled_data_nom_no_zeros.dat'
+        else:
+            pickle_path = 'pickled_data_nom.dat'
+    elif not output_nom and rem_0:
+        pickle_path = 'pickled_data_no_zeros.dat'
+
     if os.path.isfile(pickle_path):
         print "Fetching dictionary from pickled_data.dat"
         swq_data = load(pickle_path)
-
+    #Otherwise parse the data
     else:
         print "Parsing data to make dictionary"
-        swq_data = compile_data(output_nom)
+        swq_data = compile_data(output_nom, rem_0)
         s = save(swq_data,pickle_path)
         print "DATA COMPILED "
     f = open(filename, 'wb')
@@ -103,7 +112,10 @@ def load(sFilename):
 
 if __name__ == '__main__':
     #this one will put the attendence into a 5 nominal values
-    output_to_csv(filename = 'output/hcsp_big_nom.csv', output_nom = True)
+    output_to_csv(filename = 'output/hcsp_big_nom.csv', output_nom = True, rem_0 = False)
 
     #this one will run the standard output to csv
     output_to_csv()
+
+    #this one will run numeric attendence
+    output_to_csv(filename = 'output/hcsp_big_no_zeros.csv', output_nom = False, rem_0 = True)

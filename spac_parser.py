@@ -122,6 +122,13 @@ def get_gym_numbers():
 			gym_times[date_time2][0] = gym_times[date_time2][0] + 1
 	return gym_times
 
+def remove_zeros(gym_t):
+	keys = gym_t.keys()
+	for key in keys:
+		if gym_t[key][0] == 0:
+			del gym_t[key]
+	return gym_t
+
 def print_gym_times(gym_times):
 	for key in gym_times.keys():
 		print 'Date/Time: ' + str(key) + ', Number: ' + str(gym_times[key])
