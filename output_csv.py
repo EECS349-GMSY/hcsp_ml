@@ -117,5 +117,8 @@ if __name__ == '__main__':
     #this one will run the standard output to csv
     output_to_csv()
 
-    #this one will run numeric attendence
+    #this one will run numeric attendence without zeros
     output_to_csv(filename = 'output/hcsp_big_no_zeros.csv', output_nom = False, rem_0 = True)
+
+    #this one will run nominal attendence without zeros
+    output_to_csv(filename = 'output/hcsp_big_nom_no_zeros.csv', output_nom = True, rem_0 = True)
