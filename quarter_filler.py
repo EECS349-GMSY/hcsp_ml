@@ -18,7 +18,7 @@ def quarter_filler_func(attend):
 	""" """
 	for key in attend.keys():
 		if(key>=start_winter_2015 and key<=end_winter_2015):
-			attend[key].append(2)
+			attend[key].append("win")
 			d0=end_winter_2015
 			d1=start_winter_2015
 			delta=d0-d1
@@ -28,7 +28,7 @@ def quarter_filler_func(attend):
 			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
 		elif(key>=start_spring_2015 and key<=end_spring_2015):
-			attend[key].append(3)
+			attend[key].append("spr")
 			d0=end_spring_2015
 			d1=start_spring_2015
 			delta=d0-d1
@@ -38,7 +38,7 @@ def quarter_filler_func(attend):
 			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
 		elif (key>=start_summer_2015 and key<=end_summer_2015):
-			attend[key].append(4)
+			attend[key].append("sum")
 			d0 = end_summer_2015
 			d1 = start_summer_2015
 			delta = d0-d1
@@ -49,7 +49,7 @@ def quarter_filler_func(attend):
 			attend[key].append(deltacurrent.days / delta.days)
 
 		elif(key>=start_fall_2015 and key<=end_fall_2015):
-			attend[key].append(1)
+			attend[key].append("fal")
 			d0=end_fall_2015
 			d1=start_fall_2015
 			delta=d0-d1
@@ -59,7 +59,7 @@ def quarter_filler_func(attend):
 			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
 		elif(key>=start_winter_2016 and key<=end_winter_2016):
-			attend[key].append(2)
+			attend[key].append("win")
 			d0=end_winter_2016
 			d1=start_winter_2016
 			delta=d0-d1
@@ -69,7 +69,7 @@ def quarter_filler_func(attend):
 			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
 		elif(key>=start_spring_2016 and key<=end_spring_2016):
-			attend[key].append(3)
+			attend[key].append("spr")
 			d0=end_spring_2016
 			d1=start_spring_2016
 			delta=d0-d1
@@ -79,7 +79,6 @@ def quarter_filler_func(attend):
 			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
 		else:
-			attend[key].append(0)
-			attend[key].append(0)
+			attend[key].append("bre")
 
 	return attend
