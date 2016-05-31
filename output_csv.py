@@ -35,7 +35,7 @@ def compile_data(output_nom = False, rem_0 = False):
     #convert attendence to nominal if output_nom == True
     if rem_0:
         gym_nums = remove_zeros(gym_nums)
-        
+
     if output_nom:
         gym_nums = gym_num_to_nom(gym_nums)
 
@@ -79,19 +79,36 @@ def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False, rem_0 = 
     out_f = csv.writer(f)
 
     start = time.clock()
-    header_row = ['Datetime', 'Attendence', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7', 'W8']
+    # header_row = ['Datetime', 'Attendence', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7', 'W8']
+    header_row = ['Day of Week', 'Time', 'Attendence', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7', 'W8']
     out_f.writerow(header_row)
     for key in swq_data.keys():
         curr_row = swq_data[key]
+
         #print "CURR ROW LENGTH: " + str(len(curr_row))
         if len(curr_row) == 10:
             #print str(curr_row)
-            curr_row.insert(0, str(key))
+            # print str(key)
+            (day, timey) = get_day_of_week(key)
+            curr_row.insert(0, timey)
+            curr_row.insert(0, str(day))
+
             out_f.writerow(curr_row)
 
     end = time.clock()
     print "COMPLETED OUTPUT TO CSV in " + str(end - start) + " seconds "
     return 0
+
+def get_day_of_week(d_t):
+    week_day = d_t.isoweekday()
+    # print "DT " + str(d_t)
+    # print 'WEEEJDAY '  + str(week_day)
+    # print "DT " + str(d_t)
+    hour = d_t.hour
+    miny = d_t.minute
+    timey = hour * 100 + miny
+    return (week_day, timey)
+
 
 #############################################################
 #### -- The following 2 functions were brought from EECS 348 Assignment 3
