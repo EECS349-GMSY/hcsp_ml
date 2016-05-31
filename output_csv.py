@@ -16,9 +16,8 @@ def weather_to_dict(weather_list):
         w_dict[dt] = w[1:]
     return w_dict
 
-
 def add_weather_to_gym(gq_data, weath):
-    for key in gq_data.keys():
+    for key in gq_data:
         if key in weath:
             curr_gq_0 = gq_data[key][0]
             curr_gq_1 = gq_data[key][1]
@@ -40,7 +39,6 @@ def compile_data(output_nom = False, rem_0 = False):
         gym_nums = gym_num_to_nom(gym_nums)
 
     gym_quart = quarter_filler_func(gym_nums)
-    print 'LEN ' + str(len(gym_quart.keys()))
     #print str(gym_quart)
     w_file = 'data/weather_jan2015_may2016.csv'
     w_list = weather_parser(w_file)
@@ -80,15 +78,11 @@ def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False, rem_0 = 
 
     start = time.clock()
     # header_row = ['Datetime', 'Attendence', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7', 'W8']
-    header_row = ['Day of Week', 'Time', 'Attendence', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7', 'W8']
+    header_row = ['Day of Week', 'Time', 'Attendence', 'Quarter', 'Place in Quarter', 'W1', 'W2','W3','W4','W5','W6','W7']
     out_f.writerow(header_row)
     for key in swq_data.keys():
         curr_row = swq_data[key]
-
-        #print "CURR ROW LENGTH: " + str(len(curr_row))
         if len(curr_row) == 10:
-            #print str(curr_row)
-            # print str(key)
             (day, timey) = get_day_of_week(key)
             curr_row.insert(0, timey)
             curr_row.insert(0, str(day))
@@ -101,9 +95,6 @@ def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False, rem_0 = 
 
 def get_day_of_week(d_t):
     week_day = d_t.isoweekday()
-    # print "DT " + str(d_t)
-    # print 'WEEEJDAY '  + str(week_day)
-    # print "DT " + str(d_t)
     hour = d_t.hour
     miny = d_t.minute
     timey = hour * 100 + miny

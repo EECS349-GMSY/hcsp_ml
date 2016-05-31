@@ -80,5 +80,6 @@ def quarter_filler_func(attend):
 
 		else:
 			attend[key].append("bre")
+			attend[key].append(0.0)
 
 	return attend
