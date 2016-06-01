@@ -37,7 +37,7 @@ def quarter_filler_func(attend):
 			deltacurrent = d2 - d3
 			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
-		elif (key>=start_summer_2015 and key<=end_summer_2015):
+		elif(key>=start_summer_2015 and key<=end_summer_2015):
 			attend[key].append("sum")
 			d0 = end_summer_2015
 			d1 = start_summer_2015
@@ -46,7 +46,7 @@ def quarter_filler_func(attend):
 			d3=start_summer_2015
 			deltacurrent = d2 - d3
 			print(deltacurrent)
-			attend[key].append(deltacurrent.days / delta.days)
+			attend[key].append(float(deltacurrent.days)/(float(delta.days)))
 
 		elif(key>=start_fall_2015 and key<=end_fall_2015):
 			attend[key].append("fal")
