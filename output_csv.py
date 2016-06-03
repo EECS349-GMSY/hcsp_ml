@@ -1,12 +1,11 @@
-
 import math, time
 from datetime import datetime, date, timedelta
 import csv
 import os
 import glob
-from spac_parser import *
-from weather_parser import *
-from quarter_filler import *
+from scripts.hcsp_parser import *
+from scripts.weather_parser import *
+from scripts.quarter_filler import *
 
 
 def weather_to_dict(weather_list):
@@ -52,17 +51,17 @@ def check_data(swq):
             print 'BREAKKKKDJDJDJD'
     return 0
 
-def output_to_csv(filename = 'output/hcsp_big.csv', output_nom = False, rem_0 = False):
+def output_to_csv(filename = 'data/output/hcsp_big.csv', output_nom = False, rem_0 = False):
     swq_data = {}
     #GET THE DATA IF PICKLED
-    pickle_path = 'pickled_data.dat'
+    pickle_path = 'data/pickles/pickled_data.dat'
     if output_nom:
         if rem_0:
-            pickle_path = 'pickled_data_nom_no_zeros.dat'
+            pickle_path = 'data/pickles/pickled_data_nom_no_zeros.dat'
         else:
-            pickle_path = 'pickled_data_nom.dat'
+            pickle_path = 'data/pickles/pickled_data_nom.dat'
     elif not output_nom and rem_0:
-        pickle_path = 'pickled_data_no_zeros.dat'
+        pickle_path = 'data/pickles/pickled_data_no_zeros.dat'
 
     if os.path.isfile(pickle_path):
         print "Fetching dictionary from pickled_data.dat"
@@ -120,13 +119,13 @@ def load(sFilename):
 
 if __name__ == '__main__':
     #this one will put the attendence into a 5 nominal values
-    output_to_csv(filename = 'output/hcsp_big_nom.csv', output_nom = True, rem_0 = False)
+    output_to_csv(filename = 'data/output/hcsp_big_nom.csv', output_nom = True, rem_0 = False)
 
     #this one will run the standard output to csv
     output_to_csv()
 
     #this one will run numeric attendence without zeros
-    output_to_csv(filename = 'output/hcsp_big_no_zeros.csv', output_nom = False, rem_0 = True)
+    output_to_csv(filename = 'data/output/hcsp_big_no_zeros.csv', output_nom = False, rem_0 = True)
 
     #this one will run nominal attendence without zeros
-    output_to_csv(filename = 'output/hcsp_big_nom_no_zeros.csv', output_nom = True, rem_0 = True)
+    output_to_csv(filename = 'data/output/hcsp_big_nom_no_zeros.csv', output_nom = True, rem_0 = True)
